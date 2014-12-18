@@ -12,6 +12,7 @@
       - build-essential
       - python-software-properties
       - mcrypt
+      - git
 
   - name: Update apt again
     sudo: yes

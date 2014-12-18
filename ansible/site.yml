@@ -5,4 +5,6 @@
     doc_root: /var/www/web
   roles:
     - init
+    - imagemagick
+    - exiftool
     - tomcat6

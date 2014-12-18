@@ -1,0 +1,11 @@
+- name: Install PHP plus dependencies
+  sudo: yes
+  apt:  pkg={{ item }} state=latest
+  with_items:
+    - php5-curl
+    - php-soap
+    - php5-xsl
+    - php5-gd
+    - php5-dev
+
+- name: Install PECL

@@ -1,0 +1,5 @@
+- name: Install Imagemagick
+  sudo: yes
+  apt:  pkg={{ item }} state=latest
+  with_items:
+    - imagemagick
