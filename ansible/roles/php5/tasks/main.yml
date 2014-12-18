@@ -1,0 +1,40 @@
+- name: Install PHP5
+  sudo: yes
+  apt:  pkg={{ item }} state=latest
+  with_items:
+    - php5
+
+- name: Install libapache2
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - libapache2-mod-php5
+
+- name: Install PHP5 libraries
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - php5-dev
+    - php5-curl
+    - php-soap
+    - php5-xsl
+    - php5-gd
+    - php-pear
+
+- name: Install PECL extensions
+  sudo: yes
+  command: "pecl install {{ item }}"
+  register: pecl_result
+  changed_when: "pecl_result.rc == 0"
+  failed_when: "not (('already installed' in pecl_result.stdout) or ('install ok:' in pecl_result.stdout))"
+  with_items: php_pecl_extensions
+
+- name: Create PECL extension template
+  sudo: yes
+  template: src=pecl_extension.j2 dest=/etc/php5/mods-available/{{ item }}.ini
+  with_items: php_pecl_extensions
+
+- name: Enable PECL extensions
+  sudo: yes
+  command: php5enmod {{ item }}
+  with_items: php_pecl_extensions

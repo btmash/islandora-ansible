@@ -8,3 +8,5 @@
     - imagemagick
     - exiftool
     - tomcat6
+    - apache2
+    - php5

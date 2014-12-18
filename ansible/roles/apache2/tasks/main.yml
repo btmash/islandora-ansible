@@ -1,0 +1,5 @@
+- name: Install Apache2
+  sudo: yes
+  apt:  pkg={{ item }} state=latest
+  with_items:
+    - apache2

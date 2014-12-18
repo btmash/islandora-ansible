@@ -13,6 +13,7 @@
       - python-software-properties
       - mcrypt
       - git
+      - sendmail
 
   - name: Update apt again
     sudo: yes
