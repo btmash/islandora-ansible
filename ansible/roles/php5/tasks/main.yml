@@ -38,3 +38,21 @@
   sudo: yes
   command: php5enmod {{ item }}
   with_items: php_pecl_extensions
+
+- name: Ensure enough memory for PHP Apache
+  sudo: yes
+  lineinfile: dest=/etc/php5/apache2/php.ini
+              regexp='memory_limit ='
+              line='memory_limit = {{ memory_limit }}'
+
+- name: Ensure large file upload
+  sudo: yes
+  lineinfile: dest=/etc/php5/apache2/php.ini
+              regexp='upload_max_filesize ='
+              line='upload_max_filesize = {{ upload_max_filesize }}'
+
+- name: Ensure post_max_size matches large file upload size
+  sudo: yes
+  lineinfile: dest=/etc/php5/apache2/php.ini
+              regexp='post_max_size ='
+              line='post_max_size = {{ upload_max_filesize }}'

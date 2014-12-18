@@ -1,3 +1,5 @@
 ---
+upload_max_filesize: 500M
+memory_limit: 192M
 php_pecl_extensions:
   - uploadprogress
