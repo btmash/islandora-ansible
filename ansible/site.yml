@@ -7,7 +7,8 @@
     - init
     - imagemagick
     - exiftool
-    - tomcat6
+    - tesseract-ocr
     - apache2
     - php5
     - drupal-drush
+    - tomcat6
