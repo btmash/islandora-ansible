@@ -8,7 +8,9 @@
     - imagemagick
     - exiftool
     - tesseract-ocr
+    - mysql
     - apache2
     - php5
     - drupal-drush
     - tomcat6
+    - adore-djatoka
