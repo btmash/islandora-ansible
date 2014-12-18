@@ -1,0 +1,31 @@
+- name: Download adore-djatoka
+  sudo: yes
+  get_url: url=http://downloads.sourceforge.net/project/djatoka/djatoka/1.1/adore-djatoka-1.1.tar.gz dest=/opt/adore-djatoka-1.1.tar.gz
+
+- name: untar adore-djatoka
+  sudo: yes
+  shell: chdir="/opt" tar -xf adore-djatoka-1.1.tar.gz
+
+- name: Remove adore-djatoka tar
+  sudo: yes
+  shell: chdir="/opt" rm -f adore-djatoka-1.1.tar.gz
+
+- name: Symlink adore-djatoka with version
+  sudo: yes
+  file: path=/opt/adore-djatoka src=/opt/adore-djatoka-1.1 state=link
+
+- name: Create PECL extension template
+  sudo: yes
+  copy: src=kdu_libs.conf dest=/etc/ld.so.conf.d/kdu_libs.conf mode="u=rw,g=r,o=r"
+
+- name: Run LDConfig
+  sudo: yes
+  command: ldconfig
+
+- name: Create link to Kakadu compress
+  sudo: yes
+  file: path=/usr/local/bin/kdu_compress src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_compress state=link
+
+- name: Create link to Kakadu expand
+  sudo: yes
+  file: path=/usr/local/bin/kdu_expand src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_expand state=link
