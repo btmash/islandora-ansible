@@ -3,7 +3,7 @@ Vagrant.configure("2") do |config|
     config.vm.box       = 'ubuntu/trusty64'
 
     # Configure the network interfaces
-    config.vm.network :private_network, ip:    "33.33.33.10"
+    config.vm.network :private_network, ip:    "10.10.10.10"
 
     # Configure shared folders
     config.vm.synced_folder ".",  "/vagrant", id: "vagrant-root", :nfs => true
