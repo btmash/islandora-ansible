@@ -36,9 +36,9 @@
   sudo: yes
   template: src=.my.cnf.j2 dest=/root/.my.cnf mode=0600
 
-- name: Copy .my.cnf file with root password credentials to vagrant user
+- name: Copy .my.cnf file with root password credentials to any other users
   sudo: yes
-  template: src=.my.cnf.j2 dest=/home/{item}/.my.cnf owner={item} group={item} mode=0640
+  template: src=.my.cnf.j2 dest=/home/{{ item }}/.my.cnf owner={{ item }} group={{ item }} mode=0640
   with_items: mysql_server_cred_users
 
 - name: ensure anonymous users are not in the database
