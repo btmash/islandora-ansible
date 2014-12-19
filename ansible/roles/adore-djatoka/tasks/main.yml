@@ -14,9 +14,9 @@
   sudo: yes
   file: path=/opt/adore-djatoka src=/opt/adore-djatoka-1.1 state=link
 
-- name: Create PECL extension template
+- name: Add KDU library on load.
   sudo: yes
-  copy: src=kdu_libs.conf dest=/etc/ld.so.conf.d/kdu_libs.conf mode="u=rw,g=r,o=r"
+  copy: src=kdu_libs.conf dest=/etc/ld.so.conf.d/kdu_libs.conf mode=0644
 
 - name: Run LDConfig
   sudo: yes
