@@ -24,11 +24,11 @@
 
 - name: Create link to Kakadu compress
   sudo: yes
-  file: path=/usr/local/bin/kdu_compress src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_compress state=link
+  file: src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_compress dest=/usr/local/bin/kdu_compress state=link
 
 - name: Create link to Kakadu expand
   sudo: yes
-  file: path=/usr/local/bin/kdu_expand src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_expand state=link
+  file: src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_expand dest=/usr/local/bin/kdu_expand state=link
 
 - name: Enable Apache Modules
   sudo: yes
@@ -43,6 +43,7 @@
     - proxy_balancer
     - proxy_connect
     - proxy_html
+
 
 - name: Restart Apache
   sudo: yes

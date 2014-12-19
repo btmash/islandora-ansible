@@ -5,13 +5,16 @@ mysql_bind_address: "0.0.0.0"
 mysql_root_db_pass: root
 
 mysql_db:
-     - name: d_islandora
-     - name: fedora3
+  - name: d_islandora
+  - name: fedora3
 
 mysql_users:
-     - name: drupal
-       pass: drupal
-       priv: "d_islandora.*:ALL"
-     - name: fedora_admin
-       pass: fedora.admin
-       priv: "fedora3.*:ALL"
+  - name: drupal
+    pass: drupal
+    priv: "d_islandora.*:ALL"
+  - name: fedora_admin
+    pass: fedora.admin
+    priv: "fedora3.*:ALL"
+
+mysql_server_cred_users:
+  - vagrant
