@@ -9,8 +9,8 @@
     - exiftool
     - tesseract-ocr
     - mysql
+    - tomcat6
     - apache2
+    - adore-djatoka
     - php5
     - drupal-drush
-    - tomcat6
-    - adore-djatoka

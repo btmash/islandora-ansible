@@ -1,0 +1,3 @@
+---
+- name: restart tomcat6
+  service: name={{ tomcat_service }} state=restarted

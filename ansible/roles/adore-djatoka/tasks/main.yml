@@ -29,3 +29,27 @@
 - name: Create link to Kakadu expand
   sudo: yes
   file: src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_expand dest=/usr/local/bin/kdu_expand state=link
+
+- name: Create link to djatoka inside Tomcat
+  sudo: yes
+  file: src=/opt/adore-djatoka/dist/adore-djatoka.war dest=/var/lib/tomcat6/webapps/adore-djatoka.war state=link
+
+- name: Replace tomcat6 defaults
+  sudo: yes
+  copy: src=tomcat6.conf dest=/etc/default/tomcat6 mode=0644
+  notify: restart tomcat6
+
+- name: Restart tomcat6
+  sudo: yes
+  service: name=tomcat6 state=restarted
+
+- name: Wait 30 seconds
+  pause: seconds=30
+
+- name: Replace djatoka logging defaults
+  sudo: yes
+  copy: src=log4j.properties dest=/var/lib/tomcat6/webapps/adore-djatoka/WEB-INF/classes/log4j.properties mode=0644
+
+- name: Restart tomcat6
+  sudo: yes
+  service: name=tomcat6 state=restarted
