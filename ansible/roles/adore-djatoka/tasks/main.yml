@@ -29,22 +29,3 @@
 - name: Create link to Kakadu expand
   sudo: yes
   file: src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_expand dest=/usr/local/bin/kdu_expand state=link
-
-- name: Enable Apache Modules
-  sudo: yes
-  command:  a2enmod {{ item }}
-  with_items:
-    - proxy
-    - proxy_http
-    - proxy_ajp
-    - rewrite
-    - deflate
-    - headers
-    - proxy_balancer
-    - proxy_connect
-    - proxy_html
-
-
-- name: Restart Apache
-  sudo: yes
-  shell: service apache2 restart
