@@ -3,3 +3,10 @@
   apt:  pkg={{ item }} state=latest
   with_items:
     - apache2
+
+- name: Enable Apache Modules
+  sudo: yes
+  command:  a2enmod {{ item }}
+  with_items: apache_modules
+  notify:
+   - restart apache
