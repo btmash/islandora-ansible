@@ -32,24 +32,24 @@
 
 - name: Create link to djatoka inside Tomcat
   sudo: yes
-  file: src=/opt/adore-djatoka/dist/adore-djatoka.war dest=/var/lib/tomcat6/webapps/adore-djatoka.war state=link
+  file: src=/opt/adore-djatoka/dist/adore-djatoka.war dest=/var/lib/tomcat7/webapps/adore-djatoka.war state=link
 
-- name: Replace tomcat6 defaults
+- name: Replace tomcat7 defaults - change to /etc/default/tomcat7 once sorted
   sudo: yes
-  copy: src=tomcat6.conf dest=/etc/default/tomcat6 mode=0644
-  notify: restart tomcat6
+  copy: src=tomcat6.conf dest=/root/tomcat6 mode=0644
+  notify: restart tomcat7
 
-- name: Restart tomcat6
+- name: Restart tomcat7
   sudo: yes
-  service: name=tomcat6 state=restarted
+  service: name=tomcat7 state=restarted
 
 - name: Wait 30 seconds
   pause: seconds=30
 
 - name: Replace djatoka logging defaults
   sudo: yes
-  copy: src=log4j.properties dest=/var/lib/tomcat6/webapps/adore-djatoka/WEB-INF/classes/log4j.properties mode=0644
+  copy: src=log4j.properties dest=/var/lib/tomcat7/webapps/adore-djatoka/WEB-INF/classes/log4j.properties mode=0644
 
-- name: Restart tomcat6
+- name: Restart tomcat7
   sudo: yes
-  service: name=tomcat6 state=restarted
+  service: name=tomcat7 state=restarted

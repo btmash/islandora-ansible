@@ -9,7 +9,7 @@
     - exiftool
     - tesseract-ocr
     - mysql
-    - tomcat6
+    - tomcat7
     - apache2
     - adore-djatoka
     - php5
