@@ -2,4 +2,4 @@
   sudo: yes
   apt:  pkg={{ item }} state=latest
   with_items:
-    - tomcat6
+    - tomcat7
