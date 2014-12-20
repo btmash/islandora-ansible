@@ -36,7 +36,7 @@
 
 - name: Replace tomcat7 defaults - change to /etc/default/tomcat7 once sorted
   sudo: yes
-  copy: src=tomcat6.conf dest=/root/tomcat6 mode=0644
+  copy: src=tomcat7.conf dest=/root/tomcat7 mode=0644
   notify: restart tomcat7
 
 - name: Restart tomcat7
