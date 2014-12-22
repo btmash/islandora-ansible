@@ -6,13 +6,13 @@ Vagrant.configure("2") do |config|
     config.vm.network :private_network, ip:    "10.10.10.10"
 
     # Configure shared folders
-    config.vm.synced_folder ".",  "/vagrant", id: "vagrant-root", :nfs => true
+    # config.vm.synced_folder ".",  "/vagrant", id: "vagrant-root", :nfs => true
     # config.vm.synced_folder "..", "/var/www", id: "application",  :nfs => true
 
     # Configure VirtualBox environment
     config.vm.provider :virtualbox do |v|
         v.name = (0...8).map { (65 + rand(26)).chr }.join
-        v.customize [ "modifyvm", :id, "--memory", 512 ]
+        v.customize [ "modifyvm", :id, "--memory", 2048 ]
     end
 
     # Provision the box

@@ -1,0 +1,28 @@
+- name: Clone version of djatoka from git
+  sudo: yes
+  git: repo={{ djatoka_git_repo }} dest={{ djatoka_install_path }} version={{ djatoka_git_version }}
+
+- name: Create djatoka init.d symlink
+  sudo: yes
+  file: src={{ djatoka_install_path }}/etc/init.d/djatoka dest=/etc/init.d/djatoka state=link
+
+- name: Enable djatoka for startup
+  sudo: yes
+  command: update-rc.d -f djatoka start 80 2 3 4 5 . stop 30 0 1 6 .
+
+- name: Install freelib-djatoka
+  sudo: yes
+  shell: chdir="{{ djatoka_install_path }}" mvn install
+
+- name: Start freelib-djatoka
+  sudo: yes
+  service: name=djatoka state=started
+
+- name: Add apache config
+  sudo: yes
+  copy: src=adore-djatoka.conf dest=/etc/apache2/conf-available/adore-djatoka.conf
+
+- name: Enable adore-djatoka config
+  sudo: yes
+  command: a2enconf adore-djatoka
+  notify: restart apache

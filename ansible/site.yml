@@ -11,6 +11,6 @@
     - mysql
     - tomcat7
     - apache2
-    - adore-djatoka
-    - php5
-    - drupal-drush
+    - freelib-djatoka
+#    - php5
+#    - drupal-drush

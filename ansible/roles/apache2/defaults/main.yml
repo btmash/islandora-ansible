@@ -10,3 +10,4 @@ apache_modules:
   - proxy_balancer
   - proxy_connect
   - proxy_html
+  - xml2enc
