@@ -12,5 +12,6 @@
     - tomcat7
     - apache2
     - freelib-djatoka
-#    - php5
-#    - drupal-drush
+#    - adore-djatoka
+    - php5
+    - drupal-drush
