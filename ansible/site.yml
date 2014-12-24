@@ -2,16 +2,20 @@
 - hosts: all
   sudo:  true
   vars:
+    server_ip: 10.10.10.10
     doc_root: /var/www/web
+    tomcat:
+      install_path: /var/lib/tomcat7
   roles:
     - init
+    - apache2
+    - tomcat7
+    - php5
+    - mysql
+    - drupal-drush
+    - fedora-commons
     - imagemagick
     - exiftool
     - tesseract-ocr
-    - mysql
-    - tomcat7
-    - apache2
     - freelib-djatoka
 #    - adore-djatoka
-    - php5
-    - drupal-drush

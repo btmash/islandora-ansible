@@ -1,0 +1,15 @@
+- name: Download Fedora Commons
+  sudo: yes
+  get_url: url=http://downloads.sourceforge.net/project/fedora-commons/fedora/{{ fedora.version }}/fcrepo-installer-{{ fedora.version }}.jar dest=/opt/fedora.jar
+
+- name: Copy install properties
+  sudo: yes
+  template: src=install.properties.j2 dest=/opt/install.properties
+
+- name: Install fedora commons
+  sudo: yes
+  command: chdir="/opt" java -jar fedora.jar install.properties
+
+- name: Change ownership to Tomcat and update permissions
+  sudo: yes
+  file: path={{ fedora.install_path }} owner=tomcat7 group=tomcat7 mode=g+rwx recurse=yes

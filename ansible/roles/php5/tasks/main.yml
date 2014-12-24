@@ -16,9 +16,11 @@
   with_items:
     - php5-dev
     - php5-curl
-    - php-soap
-    - php5-xsl
     - php5-gd
+    - php5-mcrypt
+    - php5-mysqlnd
+    - php5-xsl
+    - php-soap
     - php-pear
 
 - name: Install PECL extensions
