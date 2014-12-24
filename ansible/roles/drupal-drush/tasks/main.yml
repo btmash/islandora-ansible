@@ -1,15 +1,23 @@
 - name: Clone version of drush from git
   sudo: yes
-  git: repo={{ drush_git_repo }} dest={{ drush_git_dest }} version={{ drush_git_version }}
+  git:
+    repo: "{{ drush_git_repo }}"
+    dest: "{{ drush_git_dest }}"
+    version: "{{ drush_git_version }}"
 
 - name: Create Drush binary symlink
   sudo: yes
-  file: path={{drush_git_bin}} src={{drush_git_dest}}/drush state=link
+  file:
+    path: "{{ drush_git_bin }}"
+    src: "{{ drush_git_dest }}/drush"
+    state: link
 
 - name: Install Drush
   sudo: yes
-  shell: chdir="{{drush_git_dest}}" {{drush_composer_bin}} install --no-interaction --no-ansi
+  command: "{{ drush_composer_bin }} install --no-interaction --no-ansi"
+  args:
+    chdir: "{{ drush_git_dest }}"
 
 - name: Run Drush to download additional dependencies
   sudo: yes
-  shell: "{{drush_git_bin}} version"
+  command: "{{ drush_git_bin }} version"

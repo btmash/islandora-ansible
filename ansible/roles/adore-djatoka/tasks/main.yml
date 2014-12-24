@@ -1,22 +1,29 @@
 - name: Download adore-djatoka
   sudo: yes
-  get_url: url=http://downloads.sourceforge.net/project/djatoka/djatoka/1.1/adore-djatoka-1.1.tar.gz dest=/opt/adore-djatoka-1.1.tar.gz
+  get_url:
+    url: http://downloads.sourceforge.net/project/djatoka/djatoka/1.1/adore-djatoka-1.1.tar.gz
+    dest: /opt/adore-djatoka-1.1.tar.gz
 
 - name: untar adore-djatoka
   sudo: yes
-  shell: chdir="/opt" tar -xf adore-djatoka-1.1.tar.gz
-
-- name: Remove adore-djatoka tar
-  sudo: yes
-  shell: chdir="/opt" rm -f adore-djatoka-1.1.tar.gz
+  unarchive:
+    src: /opt/adore-djatoka-1.1.tar.gz
+    dest: /opt/adore-djatoka-1.1
+    copy: no
 
 - name: Symlink adore-djatoka with version
   sudo: yes
-  file: path=/opt/adore-djatoka src=/opt/adore-djatoka-1.1 state=link
+  file:
+    path: /opt/adore-djatoka
+    src: /opt/adore-djatoka-1.1
+    state: link
 
 - name: Add KDU library on load.
   sudo: yes
-  copy: src=kdu_libs.conf dest=/etc/ld.so.conf.d/kdu_libs.conf mode=0644
+  copy:
+    src: kdu_libs.conf
+    dest: /etc/ld.so.conf.d/kdu_libs.conf
+    mode: 0644
 
 - name: Run LDConfig
   sudo: yes
@@ -24,32 +31,52 @@
 
 - name: Create link to Kakadu compress
   sudo: yes
-  file: src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_compress dest=/usr/local/bin/kdu_compress state=link
+  file:
+    src: /opt/adore-djatoka/bin/Linux-x86-64/kdu_compress
+    dest: /usr/local/bin/kdu_compress
+    state: link
 
 - name: Create link to Kakadu expand
   sudo: yes
-  file: src=/opt/adore-djatoka/bin/Linux-x86-64/kdu_expand dest=/usr/local/bin/kdu_expand state=link
+  file:
+    src: /opt/adore-djatoka/bin/Linux-x86-64/kdu_expand
+    dest: /usr/local/bin/kdu_expand
+    state: link
 
 - name: Create link to djatoka inside Tomcat
   sudo: yes
-  file: src=/opt/adore-djatoka/dist/adore-djatoka.war dest=/var/lib/tomcat7/webapps/adore-djatoka.war state=link
+  file:
+    src: /opt/adore-djatoka/dist/adore-djatoka.war
+    dest: /var/lib/tomcat7/webapps/adore-djatoka.war
+    state: link
 
 - name: Replace tomcat7 defaults - change to /etc/default/tomcat7 once sorted
   sudo: yes
-  copy: src=tomcat7.conf dest=/root/tomcat7 mode=0644
+  copy:
+    src: tomcat7.conf
+    dest: /root/tomcat7
+    mode: 0644
   notify: restart tomcat7
 
 - name: Restart tomcat7
   sudo: yes
-  service: name=tomcat7 state=restarted
+  service:
+    name: tomcat7
+    state: restarted
 
 - name: Wait 30 seconds
-  pause: seconds=30
+  pause:
+    seconds: 30
 
 - name: Replace djatoka logging defaults
   sudo: yes
-  copy: src=log4j.properties dest=/var/lib/tomcat7/webapps/adore-djatoka/WEB-INF/classes/log4j.properties mode=0644
+  copy:
+    src: log4j.properties
+    dest: /var/lib/tomcat7/webapps/adore-djatoka/WEB-INF/classes/log4j.properties
+    mode: 0644
 
 - name: Restart tomcat7
   sudo: yes
-  service: name=tomcat7 state=restarted
+  service:
+    name: tomcat7
+    state: restarted

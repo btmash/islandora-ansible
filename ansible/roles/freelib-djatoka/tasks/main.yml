@@ -1,10 +1,16 @@
 - name: Clone version of djatoka from git
   sudo: yes
-  git: repo={{ djatoka_git_repo }} dest={{ djatoka_install_path }} version={{ djatoka_git_version }}
+  git:
+    repo: "{{ djatoka_git_repo }}"
+    dest: "{{ djatoka_install_path }}"
+    version: "{{ djatoka_git_version }}"
 
 - name: Create djatoka init.d symlink
   sudo: yes
-  file: src={{ djatoka_install_path }}/etc/init.d/djatoka dest=/etc/init.d/djatoka state=link
+  file:
+    src: "{{ djatoka_install_path }}/etc/init.d/djatoka"
+    dest: /etc/init.d/djatoka
+    state: link
 
 - name: Enable djatoka for startup
   sudo: yes
@@ -12,19 +18,28 @@
 
 - name: Install freelib-djatoka
   sudo: yes
-  shell: chdir="{{ djatoka_install_path }}" mvn install
+  command: mvn install
+  args:
+    chdir: "{{ djatoka_install_path }}"
 
 - name: Change ownership to www-data and update permissions
   sudo: yes
-  file: path={{ fedora.install_path }} owner=www-data recurse=yes
+  file:
+    path: "{{ fedora.install_path }}"
+    owner: www-data
+    recurse: yes
 
 - name: Start freelib-djatoka
   sudo: yes
-  service: name=djatoka state=started
+  service:
+    name: djatoka
+    state: started
 
 - name: Add apache config
   sudo: yes
-  copy: src=adore-djatoka.conf dest=/etc/apache2/conf-available/adore-djatoka.conf
+  copy:
+    src: adore-djatoka.conf
+    dest: /etc/apache2/conf-available/adore-djatoka.conf
 
 - name: Enable adore-djatoka config
   sudo: yes

@@ -1,6 +1,8 @@
 - name: Install Tesseract-OCR
   sudo: yes
-  apt:  pkg={{ item }} state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - tesseract-ocr
     - tesseract-ocr-eng

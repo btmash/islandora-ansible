@@ -1,12 +1,14 @@
 - name: Install Apache2
   sudo: yes
-  apt:  pkg={{ item }} state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - apache2
 
 - name: Enable Apache Modules
   sudo: yes
-  command:  a2enmod {{ item }}
+  command:  "a2enmod {{ item }}"
   with_items: apache_modules
   notify:
    - restart apache

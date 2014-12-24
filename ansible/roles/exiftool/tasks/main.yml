@@ -1,5 +1,7 @@
 - name: Install Exiftool
   sudo: yes
-  apt:  pkg={{ item }} state=latest
+  apt:
+    pkg: "{{ item }}"
+    state: latest
   with_items:
     - exiftool
