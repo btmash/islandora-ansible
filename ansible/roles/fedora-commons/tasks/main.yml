@@ -1,3 +1,5 @@
+---
+
 - name: Download Fedora Commons
   sudo: yes
   get_url:

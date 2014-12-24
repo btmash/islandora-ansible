@@ -1,3 +1,5 @@
+---
+
 - name: Install PHP5
   sudo: yes
   apt:

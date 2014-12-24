@@ -1,3 +1,5 @@
+---
+
 - name: Install Tesseract-OCR
   sudo: yes
   apt:

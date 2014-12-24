@@ -1,3 +1,5 @@
+---
+
 - name: Clone version of djatoka from git
   sudo: yes
   git:

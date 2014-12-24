@@ -1,3 +1,5 @@
+---
+
 - name: Install Apache2
   sudo: yes
   apt:
