@@ -13,15 +13,7 @@
 - name: Install PHP5 libraries
   sudo: yes
   apt: pkg={{ item }} state=latest
-  with_items:
-    - php5-dev
-    - php5-curl
-    - php5-gd
-    - php5-mcrypt
-    - php5-mysqlnd
-    - php5-xsl
-    - php-soap
-    - php-pear
+  with_items: php_libraries
 
 - name: Install PECL extensions
   sudo: yes

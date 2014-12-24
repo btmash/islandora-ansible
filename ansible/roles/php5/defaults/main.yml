@@ -1,5 +1,15 @@
 ---
 upload_max_filesize: 500M
 memory_limit: 192M
+php_libraries:
+  - php5-dev
+  - php5-curl
+  - php5-gd
+  - php5-mcrypt
+  - php5-mysqlnd
+  - php5-xsl
+  - php-soap
+  - php-pear
+
 php_pecl_extensions:
   - uploadprogress

@@ -1,6 +1,9 @@
 - name: Download Fedora Commons
   sudo: yes
-  get_url: url=http://downloads.sourceforge.net/project/fedora-commons/fedora/{{ fedora.version }}/fcrepo-installer-{{ fedora.version }}.jar dest=/opt/fedora.jar
+  get_url:
+    url=http://downloads.sourceforge.net/project/fedora-commons/fedora/{{ fedora.version }}/fcrepo-installer-{{ fedora.version }}.jar
+    dest=/opt/fedora.jar
+    timeout=600
 
 - name: Copy install properties
   sudo: yes
