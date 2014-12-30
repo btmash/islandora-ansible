@@ -50,4 +50,9 @@
 - name: Copy example configuration
   sudo: yes
   sudo_user: tomcat7
-  command: cp -R {{ solr.install_path }}/example/solr/collection1/conf {{ solr.install_path }}/{{ solr.core_name }}
+  command: cp -R {{ solr.install_path }}/example/solr/collection1 {{ solr.install_path }}/{{ solr.core_name }}
+
+- name: Copy necessary libraries
+  sudo: yes
+  shell: "cp -R {{ solr.install_path }}/example/lib/ext/*.jar {{ tomcat.source_path }}/lib"
+  notify: restart tomcat7

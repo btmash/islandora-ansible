@@ -6,13 +6,14 @@
     doc_root: /var/www/web
     tomcat:
       install_path: /var/lib/tomcat7
+      source_path: /usr/share/tomcat7
   roles:
     - init
-#    - apache2
+    - apache2
     - tomcat7
+    - solr
     - mysql
     - fedora-commons
-#    - solr
 #    - php5
 #    - drupal-drush
 #    - imagemagick
