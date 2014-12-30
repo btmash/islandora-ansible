@@ -1,0 +1,53 @@
+---
+
+- name: Download Solr
+  sudo: yes
+  command: wget -O {{ solr.install_path }}-{{ solr.version }}.tgz http://archive.apache.org/dist/lucene/solr/{{ solr.version }}/solr-{{ solr.version }}.tgz
+
+- name: Untar Solr
+  sudo: yes
+  unarchive:
+    src: "{{ solr.install_path }}-{{ solr.version }}.tgz"
+    dest: "{{ solr.parent_dir }}"
+    copy: no
+
+- name: Change ownership to www-data and update permissions
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}-{{ solr.version }}"
+    owner: tomcat7
+    recurse: yes
+
+- name: Symlink Solr to proper install path
+  sudo: yes
+  file:
+    src: "{{ solr.install_path }}-{{ solr.version }}"
+    path: "{{ solr.install_path }}"
+    state: link
+
+- name: Symlink Solr inside Tomcat
+  sudo: yes
+  sudo_user: tomcat7
+  file:
+    src: "{{ solr.install_path }}/dist/solr-{{ solr.version }}.war"
+    dest: "{{ tomcat.install_path }}/webapps/solr.war"
+    state: link
+
+- name: Add Tomcat-Solr XML
+  sudo: yes
+  sudo_user: tomcat7
+  template:
+    src: tomcat_solr.xml.j2
+    dest: "{{ tomcat.install_path }}/conf/Catalina/localhost/solr.xml"
+
+- name: Add Solr Core XML
+  sudo: yes
+  sudo_user: tomcat7
+  template:
+    src: solr.xml.j2
+    dest: "{{ solr.install_path }}/solr.xml"
+
+- name: Copy example configuration
+  sudo: yes
+  sudo_user: tomcat7
+  command: cp -R {{ solr.install_path }}/example/solr/collection1/conf {{ solr.install_path }}/{{ solr.core_name }}

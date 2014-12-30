@@ -1,0 +1,6 @@
+---
+solr:
+  version: 4.10.2
+  parent_dir: /opt
+  install_path: /opt/solr
+  core_name: islandora
