@@ -15,10 +15,10 @@
     - solr
     - fedora-commons
     - fedoragsearch
-#    - php5
-#    - drupal-drush
-#    - imagemagick
-#    - exiftool
-#    - tesseract-ocr
-#    - freelib-djatoka
+    - php5
+    - drupal-drush
+    - imagemagick
+    - exiftool
+    - tesseract-ocr
+    - freelib-djatoka
 #    - adore-djatoka
