@@ -54,3 +54,30 @@
 - name: Wait 30 seconds
   pause:
     seconds: 30
+
+- name: Copy install template
+  sudo: yes
+  sudo_user: tomcat7
+  template:
+    src: fgsconfig.properties.j2
+    dest: /tmp/install.properties
+
+- name: Generate gsearch config
+  sudo: yes
+  sudo_user: tomcat7
+  shell: ant -f fgsconfig-basic.xml -propertyfile /tmp/install.properties
+  args:
+    chdir: "{{ tomcat.install_path }}/webapps/fedoragsearch/FgsConfig"
+
+- name: Copy log template
+  sudo: yes
+  sudo_user: tomcat7
+  template:
+    src: log4j.properties.j2
+    dest: "{{ tomcat.install_path }}/webapps/fedoragsearch/WEB-INF/classes/log4j.properties"
+
+- name: Remove log4j.xml
+  sudo: yes
+  file:
+    path: "{{ tomcat.install_path }}/webapps/fedoragsearch/WEB-INF/classes/log4j.xml"
+    state: absent

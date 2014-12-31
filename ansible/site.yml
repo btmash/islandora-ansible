@@ -9,10 +9,10 @@
       source_path: /usr/share/tomcat7
   roles:
     - init
-    - apache2
+#    - apache2
     - tomcat7
-    - solr
     - mysql
+    - solr
     - fedora-commons
     - fedoragsearch
 #    - php5

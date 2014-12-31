@@ -18,8 +18,10 @@
     - mcrypt
     - git
     - sendmail
-    - maven
-    - openjdk-7-jdk
+    - zip
+    - unzip
+#    - maven
+#    - openjdk-7-jdk
 
 - name: Update apt again
   sudo: yes

@@ -1,8 +1,9 @@
 ---
 fedora:
-  version: 3.7.1
+  version: 3.8.0
   database: fedora3
   database_username: fedora_admin
   database_password: fedora.admin
   install_path: /opt/fedora
+  admin_user: fedoraAdmin
   admin_password: fedoraAdmin
