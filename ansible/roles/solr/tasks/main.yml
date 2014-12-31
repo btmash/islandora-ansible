@@ -25,13 +25,10 @@
     path: "{{ solr.install_path }}"
     state: link
 
-- name: Symlink Solr inside Tomcat
+- name: Copy example configuration
   sudo: yes
   sudo_user: tomcat7
-  file:
-    src: "{{ solr.install_path }}/dist/solr-{{ solr.version }}.war"
-    dest: "{{ tomcat.install_path }}/webapps/solr.war"
-    state: link
+  command: cp -R {{ solr.install_path }}/example/solr/collection1 {{ solr.install_path }}/{{ solr.core_name }}
 
 - name: Add Tomcat-Solr XML
   sudo: yes
@@ -47,12 +44,25 @@
     src: solr.xml.j2
     dest: "{{ solr.install_path }}/solr.xml"
 
-- name: Copy example configuration
+- name: Symlink Solr inside Tomcat
   sudo: yes
   sudo_user: tomcat7
-  command: cp -R {{ solr.install_path }}/example/solr/collection1 {{ solr.install_path }}/{{ solr.core_name }}
+  file:
+    src: "{{ solr.install_path }}/dist/solr-{{ solr.version }}.war"
+    dest: "{{ tomcat.install_path }}/webapps/solr.war"
+    state: link
+
+- name: Restart tomcat7
+  sudo: yes
+  service:
+    name: tomcat7
+    state: restarted
+
+- name: Wait 30 seconds
+  pause:
+    seconds: 30
 
 - name: Copy necessary libraries
   sudo: yes
-  shell: "cp -R {{ solr.install_path }}/example/lib/ext/*.jar {{ tomcat.source_path }}/lib"
+  shell: "cp -R {{ solr.install_path }}/example/lib/ext/*.jar {{ tomcat.install_path }}/webapps/solr/WEB-INF/lib"
   notify: restart tomcat7
