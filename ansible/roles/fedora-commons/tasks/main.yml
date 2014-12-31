@@ -3,6 +3,8 @@
 - name: Download Fedora Commons
   sudo: yes
   command: wget -O /opt/fedora.jar http://downloads.sourceforge.net/project/fedora-commons/fedora/{{ fedora.version }}/fcrepo-installer-{{ fedora.version }}.jar
+  args:
+    creates: /opt/fedora.jar
 
 - name: Copy install properties
   sudo: yes
@@ -15,6 +17,7 @@
   command: java -jar fedora.jar install.properties
   args:
     chdir: /opt
+    creates: "{{ fedora.install_path }}"
 
 - name: Change ownership to Tomcat and update permissions
   sudo: yes

@@ -1,0 +1,5 @@
+---
+fedoragsearch:
+  version: 2.7
+  parent_dir: /opt
+  install_path: /opt/fedoragsearch

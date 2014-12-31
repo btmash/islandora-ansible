@@ -1,6 +1,6 @@
 ---
 fedora:
-  version: 3.8.0
+  version: 3.7.1
   database: fedora3
   database_username: fedora_admin
   database_password: fedora.admin

@@ -1,0 +1,56 @@
+---
+
+- name: Install ant
+  sudo: yes
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - ant
+    - ant-contrib
+
+- name: Download fedoragsearch
+  sudo: yes
+  command: wget -O {{ fedoragsearch.install_path }}-{{ fedoragsearch.version }}.zip http://downloads.sourceforge.net/fedora-commons/fedoragsearch-{{ fedoragsearch.version }}.zip
+  args:
+    creates: "{{ fedoragsearch.install_path }}-{{ fedoragsearch.version }}.zip"
+
+- name: Untar gsearch
+  sudo: yes
+  unarchive:
+    src: "{{ fedoragsearch.install_path }}-{{ fedoragsearch.version }}.zip"
+    dest: "{{ fedoragsearch.parent_dir }}"
+    copy: no
+    creates: "{{ fedoragsearch.install_path }}-{{ fedoragsearch.version }}/fedoragsearch.war"
+
+- name: Change ownership to tomcat7 and update permissions
+  sudo: yes
+  file:
+    path: "{{ fedoragsearch.install_path }}-{{ fedoragsearch.version }}"
+    owner: tomcat7
+    recurse: yes
+
+- name: Symlink fedoragsearch to proper install path
+  sudo: yes
+  file:
+    src: "{{ fedoragsearch.install_path }}-{{ fedoragsearch.version }}"
+    path: "{{ fedoragsearch.install_path }}"
+    state: link
+
+- name: Symlink gsearch inside Tomcat
+  sudo: yes
+  sudo_user: tomcat7
+  file:
+    src: "{{ fedoragsearch.install_path }}/fedoragsearch.war"
+    dest: "{{ tomcat.install_path }}/webapps/fedoragsearch.war"
+    state: link
+
+- name: Restart tomcat7
+  sudo: yes
+  service:
+    name: tomcat7
+    state: restarted
+
+- name: Wait 30 seconds
+  pause:
+    seconds: 30

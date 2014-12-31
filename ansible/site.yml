@@ -14,10 +14,11 @@
     - solr
     - mysql
     - fedora-commons
-    - php5
-    - drupal-drush
-    - imagemagick
-    - exiftool
-    - tesseract-ocr
-    - freelib-djatoka
+    - fedoragsearch
+#    - php5
+#    - drupal-drush
+#    - imagemagick
+#    - exiftool
+#    - tesseract-ocr
+#    - freelib-djatoka
 #    - adore-djatoka

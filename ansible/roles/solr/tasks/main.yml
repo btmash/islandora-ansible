@@ -3,6 +3,8 @@
 - name: Download Solr
   sudo: yes
   command: wget -O {{ solr.install_path }}-{{ solr.version }}.tgz http://archive.apache.org/dist/lucene/solr/{{ solr.version }}/solr-{{ solr.version }}.tgz
+  args:
+    creates: "{{ solr.install_path}}-{{ solr.version }}.tgz"
 
 - name: Untar Solr
   sudo: yes
@@ -10,6 +12,7 @@
     src: "{{ solr.install_path }}-{{ solr.version }}.tgz"
     dest: "{{ solr.parent_dir }}"
     copy: no
+    creates: "{{ solr.install_path }}-{{ solr.version }}/CHANGES.txt"
 
 - name: Change ownership to www-data and update permissions
   sudo: yes
@@ -29,6 +32,8 @@
   sudo: yes
   sudo_user: tomcat7
   command: cp -R {{ solr.install_path }}/example/solr/collection1 {{ solr.install_path }}/{{ solr.core_name }}
+  args:
+    creates: "{{ solr.install_path }}/{{ solr.core_name }}"
 
 - name: Add Tomcat-Solr XML
   sudo: yes
