@@ -1,2 +1,6 @@
 ---
-catalina_home: /var/lib/tomcat7
+
+djatoka:
+  version: 1.1
+  install_path: /opt/adore-djatoka
+  parent_dir: /opt

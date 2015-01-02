@@ -3,20 +3,27 @@
 - name: Download adore-djatoka
   sudo: yes
   get_url:
-    url: http://downloads.sourceforge.net/project/djatoka/djatoka/1.1/adore-djatoka-1.1.tar.gz
-    dest: /opt/adore-djatoka-1.1.tar.gz
+    url: http://downloads.sourceforge.net/project/djatoka/djatoka/{{ djatoka.version }}/adore-djatoka-{{ djatoka.version }}.tar.gz
+    dest: "{{ djatoka.install_path }}-{{ djatoka.version }}.tar.gz"
 
 - name: untar adore-djatoka
   sudo: yes
   unarchive:
-    src: /opt/adore-djatoka-1.1.tar.gz
-    dest: /opt/adore-djatoka-1.1
+    src: "{{ djatoka.install_path }}-{{ djatoka.version }}.tar.gz"
+    dest: "{{ djatoka.parent_dir }}"
     copy: no
+
+- name: Change ownership to tomcat and update permissions
+  sudo: yes
+  file:
+    path: "{{ djatoka.install_path }}-{{ djatoka.version }}"
+    owner: tomcat7
+    recurse: yes
 
 - name: Symlink adore-djatoka with version
   sudo: yes
   file:
-    path: /opt/adore-djatoka
+    path: "{{ djatoka.install_path }}"
     src: /opt/adore-djatoka-1.1
     state: link
 
@@ -34,22 +41,22 @@
 - name: Create link to Kakadu compress
   sudo: yes
   file:
-    src: /opt/adore-djatoka/bin/Linux-x86-64/kdu_compress
+    src: "{{ djatoka.install_path }}/bin/Linux-x86-64/kdu_compress"
     dest: /usr/local/bin/kdu_compress
     state: link
 
 - name: Create link to Kakadu expand
   sudo: yes
   file:
-    src: /opt/adore-djatoka/bin/Linux-x86-64/kdu_expand
+    src: "{{ djatoka.install_path }}/bin/Linux-x86-64/kdu_expand"
     dest: /usr/local/bin/kdu_expand
     state: link
 
 - name: Create link to djatoka inside Tomcat
   sudo: yes
   file:
-    src: /opt/adore-djatoka/dist/adore-djatoka.war
-    dest: /var/lib/tomcat7/webapps/adore-djatoka.war
+    src: "{{ djatoka.install_path }}/dist/adore-djatoka.war"
+    dest: "{{ tomcat.install_path }}/webapps/adore-djatoka.war"
     state: link
 
 - name: Replace tomcat7 defaults - change to /etc/default/tomcat7 once sorted
@@ -58,7 +65,6 @@
     src: tomcat7.conf
     dest: /root/tomcat7
     mode: 0644
-  notify: restart tomcat7
 
 - name: Restart tomcat7
   sudo: yes
@@ -74,7 +80,7 @@
   sudo: yes
   copy:
     src: log4j.properties
-    dest: /var/lib/tomcat7/webapps/adore-djatoka/WEB-INF/classes/log4j.properties
+    dest: "{{ tomcat.install_path }}/webapps/adore-djatoka/WEB-INF/classes/log4j.properties"
     mode: 0644
 
 - name: Restart tomcat7

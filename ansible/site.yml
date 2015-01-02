@@ -7,10 +7,14 @@
     tomcat:
       install_path: /var/lib/tomcat7
       source_path: /usr/share/tomcat7
+    java_packages:
+      - oracle-java7-set-default
+      - oracle-java7-installer
+      - openjdk-7-jdk
   roles:
     - init
-#    - apache2
     - tomcat7
+    - apache2
     - mysql
     - solr
     - fedora-commons

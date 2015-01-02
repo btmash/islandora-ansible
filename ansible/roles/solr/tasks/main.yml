@@ -14,7 +14,7 @@
     copy: no
     creates: "{{ solr.install_path }}-{{ solr.version }}/CHANGES.txt"
 
-- name: Change ownership to www-data and update permissions
+- name: Change ownership to tomcat and update permissions
   sudo: yes
   file:
     path: "{{ solr.install_path }}-{{ solr.version }}"
