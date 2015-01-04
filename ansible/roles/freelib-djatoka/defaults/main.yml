@@ -1,4 +1,5 @@
 ---
-djatoka_install_path: /opt/freelib-djatoka
-djatoka_git_repo: https://github.com/ksclarke/freelib-djatoka.git
-djatoka_git_version: 3ae961099ee50bfeac33e8791f6d961b133ba633
+djatoka:
+  install_path: /opt/freelib-djatoka
+  git_repo: https://github.com/ksclarke/freelib-djatoka.git
+  git_version: 3ae961099ee50bfeac33e8791f6d961b133ba633

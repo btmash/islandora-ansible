@@ -42,7 +42,7 @@
   sudo_user: tomcat7
   file:
     src: "{{ fedoragsearch.install_path }}/fedoragsearch.war"
-    dest: "{{ tomcat.install_path }}/webapps/fedoragsearch.war"
+    dest: "{{ tomcat.home }}/webapps/fedoragsearch.war"
     state: link
 
 - name: Restart tomcat7
@@ -67,17 +67,17 @@
   sudo_user: tomcat7
   shell: ant -f fgsconfig-basic.xml -propertyfile /tmp/install.properties
   args:
-    chdir: "{{ tomcat.install_path }}/webapps/fedoragsearch/FgsConfig"
+    chdir: "{{ tomcat.home }}/webapps/fedoragsearch/FgsConfig"
 
 - name: Copy log template
   sudo: yes
   sudo_user: tomcat7
   template:
     src: log4j.properties.j2
-    dest: "{{ tomcat.install_path }}/webapps/fedoragsearch/WEB-INF/classes/log4j.properties"
+    dest: "{{ tomcat.home }}/webapps/fedoragsearch/WEB-INF/classes/log4j.properties"
 
 - name: Remove log4j.xml
   sudo: yes
   file:
-    path: "{{ tomcat.install_path }}/webapps/fedoragsearch/WEB-INF/classes/log4j.xml"
+    path: "{{ tomcat.home }}/webapps/fedoragsearch/WEB-INF/classes/log4j.xml"
     state: absent

@@ -4,13 +4,38 @@
   vars:
     server_ip: localhost
     doc_root: /var/www/web
+    mysql_host: localhost
+    mysql_db:
+      - name: d_islandora
+      - name: fedora3
+    mysql_users:
+      - name: drupal
+        pass: drupal
+        priv: "d_islandora.*:ALL"
+      - name: fedora_admin
+        pass: fedora.admin
+        priv: "fedora3.*:ALL"
     tomcat:
-      install_path: /var/lib/tomcat7
+      home: /var/lib/tomcat7
       source_path: /usr/share/tomcat7
+      user: tomcat7
     java_packages:
       - oracle-java7-set-default
       - oracle-java7-installer
       - openjdk-7-jdk
+    drupal:
+      database: d_islandora
+      database_username: drupal
+      database_password: drupal
+    fedora:
+      version: 3.8.0
+      database: fedora3
+      database_username: fedora_admin
+      database_password: fedora.admin
+      install_path: /opt/fedora
+      admin_user: fedoraAdmin
+      admin_password: fedoraAdmin
+
   roles:
     - init
     - tomcat7
@@ -25,3 +50,5 @@
     - exiftool
     - tesseract-ocr
     - freelib-djatoka
+    - librarydams-backend
+#    - librarydams-frontend

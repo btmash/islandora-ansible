@@ -40,7 +40,7 @@
   sudo_user: tomcat7
   template:
     src: tomcat_solr.xml.j2
-    dest: "{{ tomcat.install_path }}/conf/Catalina/localhost/solr.xml"
+    dest: "{{ tomcat.home }}/conf/Catalina/localhost/solr.xml"
 
 - name: Add Solr Core XML
   sudo: yes
@@ -54,6 +54,6 @@
   sudo_user: tomcat7
   file:
     src: "{{ solr.install_path }}/dist/solr-{{ solr.version }}.war"
-    dest: "{{ tomcat.install_path }}/webapps/solr.war"
+    dest: "{{ tomcat.home }}/webapps/solr.war"
     state: link
   notify: restart tomcat7

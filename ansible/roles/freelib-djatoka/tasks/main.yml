@@ -3,14 +3,20 @@
 - name: Clone version of djatoka from git
   sudo: yes
   git:
-    repo: "{{ djatoka_git_repo }}"
-    dest: "{{ djatoka_install_path }}"
-    version: "{{ djatoka_git_version }}"
+    repo: "{{ djatoka.git_repo }}"
+    dest: "{{ djatoka.install_path }}"
+    version: "{{ djatoka.git_version }}"
+
+- name: Install freelib-djatoka
+  sudo: yes
+  command: mvn install
+  args:
+    chdir: "{{ djatoka.install_path }}"
 
 - name: Create djatoka init.d symlink
   sudo: yes
   file:
-    src: "{{ djatoka_install_path }}/etc/init.d/djatoka"
+    src: "{{ djatoka.install_path }}/etc/init.d/djatoka"
     dest: /etc/init.d/djatoka
     state: link
 
@@ -18,16 +24,10 @@
   sudo: yes
   command: update-rc.d -f djatoka start 80 2 3 4 5 . stop 30 0 1 6 .
 
-- name: Install freelib-djatoka
-  sudo: yes
-  command: mvn install
-  args:
-    chdir: "{{ djatoka_install_path }}"
-
 - name: Change ownership to www-data and update permissions
   sudo: yes
   file:
-    path: "{{ fedora.install_path }}"
+    path: "{{ djatoka.install_path }}"
     owner: www-data
     recurse: yes
 
