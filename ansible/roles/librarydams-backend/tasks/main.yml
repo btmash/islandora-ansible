@@ -116,3 +116,37 @@
   sudo: yes
   sudo_user: tomcat7
   command: "cp -r {{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/islandora_transforms {{ tomcat.home }}/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms"
+
+- name: Create iso639 filter directory
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}/contrib/iso639/lib"
+    state: directory
+    owner: tomcat7
+    group: tomcat7
+    recurse: yes
+
+- name: Install ISO-639 filter
+  sudo: yes
+  get_url:
+    url: http://alpha.library.yorku.ca/islandora_cookbook/solr-iso639-filter-4.2.0-r20131208.jar
+    dest: "{{ solr.install_path }}/contrib/iso639/lib/solr-iso639-filter-4.2.0-r20131208.jar"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Install GSearch extension jar
+  sudo: yes
+  get_url:
+    url: http://alpha.library.yorku.ca/islandora_cookbook/gsearch_extensions-0.1.0.jar
+    dest: "{{ tomcat.home }}/webapps//fedoragsearch/WEB-INF/lib/gsearch_extensions-0.1.0.jar"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Install GSearch extension dependencies jar
+  sudo: yes
+  get_url:
+    url: http://alpha.library.yorku.ca/islandora_cookbook/gsearch_extensions-0.1.0-jar-with-dependencies.jar
+    dest: "{{ tomcat.home }}/webapps//fedoragsearch/WEB-INF/lib/gsearch_extensions-0.1.0-jar-with-dependencies.jar"
+    owner: tomcat7
+    group: tomcat7
+  notify: restart tomcat7
