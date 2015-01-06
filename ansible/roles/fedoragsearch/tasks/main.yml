@@ -53,7 +53,7 @@
 
 - name: Wait 30 seconds
   pause:
-    seconds: 30
+    seconds: 60
 
 - name: Copy install template
   sudo: yes
