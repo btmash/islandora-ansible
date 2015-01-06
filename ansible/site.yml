@@ -2,19 +2,13 @@
 - hosts: all
   sudo:  yes
   vars:
+    create_netrc: yes
     server_ip: localhost
     doc_root: /var/www/web
     mysql_host: localhost
     mysql_db:
       - name: d_islandora
       - name: fedora3
-    mysql_users:
-      - name: drupal
-        pass: drupal
-        priv: "d_islandora.*:ALL"
-      - name: fedora_admin
-        pass: fedora.admin
-        priv: "fedora3.*:ALL"
     tomcat:
       home: /var/lib/tomcat7
       source_path: /usr/share/tomcat7
@@ -23,10 +17,23 @@
       - oracle-java7-set-default
       - oracle-java7-installer
       - openjdk-7-jdk
+    mysql_users:
+      - name: drupal
+        pass: drupal
+        priv: "d_islandora.*:ALL"
+      - name: fedora_admin
+        pass: fedora.admin
+        priv: "fedora3.*:ALL"
     drupal:
+      git_repo: http://git.drupal.org/project/drupal.git
+      git_version: 7.34
+      drush_make: no
+      docroot: docroot
       database: d_islandora
       database_username: drupal
       database_password: drupal
+      admin_password: drupal
+      install_profile: standard
     fedora:
       version: 3.8.0
       database: fedora3
@@ -35,7 +42,14 @@
       install_path: /opt/fedora
       admin_user: fedoraAdmin
       admin_password: fedoraAdmin
-
+  vars_prompt:
+    - name: "netrc_domain"
+      prompt: "Enter netrc domain (press enter if not using)"
+    - name: "netrc_user"
+      prompt: "Enter netrc user (press enter if not using)"
+    - name: "netrc_pass"
+      prompt: "Enter netrc password (press enter if not using)"
+      private: yes
   roles:
     - init
     - tomcat7
@@ -50,5 +64,5 @@
     - exiftool
     - tesseract-ocr
     - freelib-djatoka
-    - librarydams-backend
-#    - librarydams-frontend
+    - islandora-backend
+    - drupal
