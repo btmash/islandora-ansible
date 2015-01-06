@@ -9,3 +9,13 @@ drupal:
   database_password: drupal
   admin_password: drupal
   install_profile: standard
+  install_modules:
+    - update
+  uninstall_modules:
+    - overlay
+  set_variables:
+    - name: 'site_name'
+      value: "'Islandora'"
+  set_variables_array:
+    - name: 'zzztest'
+      value: "array('zzztest' => FALSE)"

@@ -14,6 +14,41 @@
     chdir: "/var/www/drupal/{{ drupal.docroot }}"
     creates: "/var/www/drupal/{{ drupal.docroot }}/sites/default/settings.php"
 
+- name: Enable modules
+  sudo: yes
+  command: drush -y pm-enable {{ item }}
+  args:
+    chdir: "/var/www/drupal/{{ drupal.docroot }}"
+  with_items: drupal.install_modules
+
+- name: Disable modules
+  sudo: yes
+  command: drush -y pm-disable {{ item }}
+  args:
+    chdir: "/var/www/drupal/{{ drupal.docroot }}"
+  with_items: drupal.uninstall_modules
+
+- name: Uninstall modules
+  sudo: yes
+  command: drush -y pm-uninstall {{ item }}
+  args:
+    chdir: "/var/www/drupal/{{ drupal.docroot }}"
+  with_items: drupal.uninstall_modules
+
+- name: Set simple drupal variables
+  sudo: yes
+  command: drush -y vset {{ item.name }} {{ item.value }}
+  with_items: drupal.set_variables
+  args:
+    chdir: "/var/www/drupal/{{ drupal.docroot }}"
+
+- name: Set complex drupal variables
+  sudo: yes
+  shell: "php -r \"print json_encode({{ item.value }});\" | drush vset --format=json {{ item.name }} -"
+  with_items: drupal.set_variables_array
+  args:
+    chdir: "/var/www/drupal/{{ drupal.docroot }}"
+
 - name: Update files directory owner settings
   sudo: yes
   command: "chown -R root:www-data /var/www/drupal/{{ drupal.docroot }}/sites/default/settings.php"
