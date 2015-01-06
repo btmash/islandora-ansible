@@ -1,0 +1,152 @@
+---
+
+- name: Install Drupal Auth Filter
+  sudo: yes
+  get_url:
+    url: https://github.com/Islandora/islandora_drupal_filter/releases/download/v7.1.3/fcrepo-drupalauthfilter-3.7.0.jar
+    dest: "{{ tomcat.home }}/webapps/fedora/WEB-INF/lib/fcrepo-drupalauthfilter-3.7.0.jar"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Set Drupal Auth Type in jaas.conf
+  sudo: yes
+  template:
+    src: jaas.conf.j2
+    dest: "{{ fedora.install_path }}/server/config/jaas.conf"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Set Islandora Policies
+  sudo: yes
+  template:
+    src: filter-drupal.xml.j2
+    dest: "{{ fedora.install_path }}/server/config/filter-drupal.xml.j2"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Clone version of xacml policies from git
+  sudo: yes
+  git:
+    repo: "https://github.com/Islandora/islandora-xacml-policies.git"
+    dest: "{{ fedora.install_path }}/data/fedora-xacml-policies/repository-policies/islandora"
+    version: "master"
+
+- name: Remove default purge deny datastreams
+  sudo: yes
+  file:
+    path: "{{ fedora.install_path }}/data/fedora-xacml-policies/repository-policies/default/deny-purge-datastream-if-active-or-inactive.xml"
+    state: absent
+
+- name: Remove default purge deny objects
+  sudo: yes
+  file:
+    path: "{{ fedora.install_path }}/data/fedora-xacml-policies/repository-policies/default/deny-purge-object-if-active-or-inactive.xml"
+    state: absent
+
+- name: Clone solr config from YorkU repo
+  sudo: yes
+  git:
+    repo: "https://github.com/yorkulibraries/basic-solr-config.git"
+    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config"
+    version: "kappa"
+
+- name: Remove current solr config
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}/{{ solr.core_name }}/conf/solrconfig.xml"
+    state: absent
+
+- name: Symlink solrconfig
+  sudo: yes
+  file:
+    src: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/conf/solrconfig.xml"
+    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/solrconfig.xml"
+    state: link
+
+- name: Remove current solr schema
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}/{{ solr.core_name }}/conf/schema.xml"
+    state: absent
+
+- name: Symlink schema
+  sudo: yes
+  file:
+    src: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/conf/schema.xml"
+    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/schema.xml"
+    state: link
+
+- name: Remove current XSLT processing config
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/foxmlToSolr.xslt"
+    state: absent
+
+- name: Add foxmlToSolr XSLT Template to solr
+  sudo: yes
+  template:
+    src: foxmlToSolr.xslt.j2
+    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/foxmlToSolr.xslt"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Remove MODS processing xslt
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/islandora_transforms/slurp_all_MODS_to_solr.xslt"
+    state: absent
+
+- name: Add MODS processing XSLT
+  sudo: yes
+  template:
+    src: slurp_all_MODS_to_solr.xslt.j2
+    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/foxmlToSolr.xslt"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Add foxmlToSolr XSLT Template to gsearch
+  sudo: yes
+  template:
+    src: foxmlToSolr.xslt.j2
+    dest: "{{ tomcat.home }}/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/foxmlToSolr.xslt"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Add transforms to gsearch
+  sudo: yes
+  sudo_user: tomcat7
+  command: "cp -r {{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/islandora_transforms {{ tomcat.home }}/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms"
+
+- name: Create iso639 filter directory
+  sudo: yes
+  file:
+    path: "{{ solr.install_path }}/contrib/iso639/lib"
+    state: directory
+    owner: tomcat7
+    group: tomcat7
+    recurse: yes
+
+- name: Install ISO-639 filter
+  sudo: yes
+  get_url:
+    url: http://alpha.library.yorku.ca/islandora_cookbook/solr-iso639-filter-4.2.0-r20131208.jar
+    dest: "{{ solr.install_path }}/contrib/iso639/lib/solr-iso639-filter-4.2.0-r20131208.jar"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Install GSearch extension jar
+  sudo: yes
+  get_url:
+    url: http://alpha.library.yorku.ca/islandora_cookbook/gsearch_extensions-0.1.0.jar
+    dest: "{{ tomcat.home }}/webapps//fedoragsearch/WEB-INF/lib/gsearch_extensions-0.1.0.jar"
+    owner: tomcat7
+    group: tomcat7
+
+- name: Install GSearch extension dependencies jar
+  sudo: yes
+  get_url:
+    url: http://alpha.library.yorku.ca/islandora_cookbook/gsearch_extensions-0.1.0-jar-with-dependencies.jar
+    dest: "{{ tomcat.home }}/webapps//fedoragsearch/WEB-INF/lib/gsearch_extensions-0.1.0-jar-with-dependencies.jar"
+    owner: tomcat7
+    group: tomcat7
+  notify: restart tomcat7
