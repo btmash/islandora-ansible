@@ -1,5 +1,13 @@
 ---
 
+- name: Create netrc file
+  sudo: yes
+  template:
+    src: netrc.j2
+    dest: "~/.netrc"
+    mode: 0600
+  when: create_netrc
+
 - name: Update apt
   sudo: yes
   apt:
