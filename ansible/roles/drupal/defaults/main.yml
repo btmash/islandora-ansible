@@ -1,0 +1,11 @@
+---
+drupal:
+  git_repo: http://git.drupal.org/project/drupal.git
+  git_version: 7.34
+  drush_make: no
+  docroot: .
+  database: d_islandora
+  database_username: drupal
+  database_password: drupal
+  admin_password: drupal
+  install_profile: standard

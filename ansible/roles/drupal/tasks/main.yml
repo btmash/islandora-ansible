@@ -1,0 +1,38 @@
+---
+
+- name: Clone drupal
+  sudo: yes
+  git:
+    repo: "{{ drupal.git_repo }}"
+    dest: /var/www/drupal
+    version: "{{ drupal.git_version }}"
+
+- name: Install drupal
+  sudo: yes
+  command: drush -y si {{ drupal.install_profile }} --db-url=mysql://{{ drupal.database_username}}:{{ drupal.database_password }}@{{ mysql_host }}/{{ drupal.database }} --account-pass={{ drupal.admin_password }}
+  args:
+    chdir: "/var/www/drupal/{{ drupal.docroot }}"
+    creates: "/var/www/drupal/{{ drupal.docroot }}/sites/default/settings.php"
+
+- name: Update files directory owner settings
+  sudo: yes
+  command: "chown -R root:www-data /var/www/drupal/{{ drupal.docroot }}/sites/default/settings.php"
+
+- name: Update files directory permissions settings
+  sudo: yes
+  command: "chmod -R u-x+rwX,g-x+rwsX,o-x+rX /var/www/drupal/{{ drupal.docroot }}/sites/default/settings.php"
+
+- name: Create apache site
+  sudo: yes
+  template:
+    src: drupal.conf.j2
+    dest: /etc/apache2/sites-available/drupal.conf
+
+- name: Disable default apache site
+  sudo: yes
+  command: a2dissite 000-default
+
+- name: Enable drupal apache site
+  sudo: yes
+  command: a2ensite drupal
+  notify: restart apache

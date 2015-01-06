@@ -1,0 +1,18 @@
+<VirtualHost _default_:80>
+  ServerAlias islandora
+  DocumentRoot /var/www/drupal/{{ drupal.docroot }}
+
+  <Directory /var/www/drupal>
+    AllowOverride All
+    Options FollowSymLinks
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  ErrorLog /var/log/apache2/drupal-error.log
+  CustomLog /var/log/apache2/drupal-access.log combined
+
+  <IfModule mod_rewrite.c>
+    RewriteEngine On
+  </IfModule>
+</VirtualHost>
