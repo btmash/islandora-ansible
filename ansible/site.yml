@@ -25,8 +25,8 @@
         pass: fedora.admin
         priv: "fedora3.*:ALL"
     drupal:
-      git_repo: http://git.drupal.org/project/drupal.git
-      git_version: 7.34
+      git_repo: https://chillco.unfuddle.com/git/chillco_islandora/
+      git_version: master
       drush_make: no
       docroot: docroot
       database: d_islandora
@@ -34,6 +34,84 @@
       database_password: drupal
       admin_password: drupal
       install_profile: standard
+      install_modules:
+        - admin_menu
+        - admin_menu_toolbar
+        - block_class
+        - ctools
+        - devel
+        - entity
+        - entityreference
+        - filefield_sources
+        - flexslider
+        - focal_point
+        - imagemagick
+        - libraries
+        - menu_block
+        - menu_position
+        - module_filter
+        - plupload
+        - quicktabs
+        - remote_file_source
+        - views
+        - views_ui
+        - webform
+        - islandora
+        - islandora_entity_bridge
+        - islandora_internet_archive_bookreader
+        - islandora_jquery_zoom
+        - islandora_mapping
+        - islandora_mods_display
+        - islandora_oai
+        - islandora_ocr
+        - islandora_openseadragon
+        - islandora_paged_content
+        - islandora_solr_search
+        - islandora_solution_pack_collection
+        - islandora_solution_pack_book
+        - islandora_solution_pack_compound
+        - islandora_solution_pack_image
+        - islandora_solution_pack_large_image
+        - islandora_xml_forms
+        - objective_forms
+        - php_lib
+        - chillco_islandora_solution_pack_large_image
+        - chillco_islandora_solution_pack_multi_image
+        - librarydams_customizations
+      uninstall_modules:
+        - overlay
+        - toolbar
+        - shortcut
+      set_variables:
+        - name: 'site_name'
+          value: "'Islandora'"
+      set_variables_array:
+        - name: 'islandora_openseadragon_settings'
+          value: "array(
+                    'debugMode' => FALSE,
+                    'djatokaServerBaseURL' => 'http://localhost:8888/resolver',
+                    'animationTime' => '1.5',
+                    'blendTime' => '0.1',
+                    'alwaysBlend' => FALSE,
+                    'autoHideControls' => TRUE,
+                    'immediateRender' => FALSE,
+                    'wrapHorizontal' => FALSE,
+                    'wrapVertical' => FALSE,
+                    'wrapOverlays' => FALSE,
+                    'panHorizontal' => TRUE,
+                    'panVertial' => TRUE,
+                    'showNavigator' => TRUE,
+                    'minZoomImageRatio' => '0.8',
+                    'maxZoomPixelRatio' => '2',
+                    'visibilityRatio' => '0.5',
+                    'sprintStiffness' => '5.0',
+                    'imageLoaderLimit' => '5',
+                    'clickTimeThreshold' => '300',
+                    'clickDistThreshold' => '5',
+                    'zoomPerClick' => '2.0',
+                    'zoomPerScroll' => '1.2',
+                    'zoomPerSecond' => '2.0',
+                  )"
     fedora:
       version: 3.8.0
       database: fedora3
