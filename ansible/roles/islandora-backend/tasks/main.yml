@@ -56,12 +56,13 @@
     path: "{{ solr.install_path }}/{{ solr.core_name }}/conf/solrconfig.xml"
     state: absent
 
-- name: Symlink solrconfig
+- name: Use solrconfig template
   sudo: yes
-  file:
-    src: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/conf/solrconfig.xml"
+  template:
+    src: solrconfig.xml.j2
     dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/solrconfig.xml"
-    state: link
+    owner: tomcat7
+    group: tomcat7
 
 - name: Remove current solr schema
   sudo: yes

@@ -20,6 +20,31 @@
     dest: /etc/init.d/djatoka
     state: link
 
+- name: Add KDU library on load.
+  sudo: yes
+  template:
+    src: kdu_libs.conf.j2
+    dest: /etc/ld.so.conf.d/kdu_libs.conf
+    mode: 0644
+
+- name: Run LDConfig
+  sudo: yes
+  command: ldconfig
+
+- name: Create link to Kakadu compress
+  sudo: yes
+  file:
+    src: "{{ djatoka.install_path }}/lib/Linux-x86-64/kdu_compress"
+    dest: /usr/local/bin/kdu_compress
+    state: link
+
+- name: Create link to Kakadu expand
+  sudo: yes
+  file:
+    src: "{{ djatoka.install_path }}/lib/Linux-x86-64/kdu_expand"
+    dest: /usr/local/bin/kdu_expand
+    state: link
+
 - name: Enable djatoka for startup
   sudo: yes
   command: update-rc.d -f djatoka start 80 2 3 4 5 . stop 30 0 1 6 .
