@@ -150,4 +150,10 @@
     dest: "{{ tomcat.home }}/webapps//fedoragsearch/WEB-INF/lib/gsearch_extensions-0.1.0-jar-with-dependencies.jar"
     owner: tomcat7
     group: tomcat7
-  notify: restart tomcat7
+
+- name: Restart tomcat7
+  sudo: yes
+  service:
+    name: tomcat7
+    state: restarted
+
