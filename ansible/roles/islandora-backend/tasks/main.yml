@@ -101,7 +101,7 @@
   sudo: yes
   template:
     src: slurp_all_MODS_to_solr.xslt.j2
-    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/foxmlToSolr.xslt"
+    dest: "{{ solr.install_path }}/{{ solr.core_name }}/conf/basic-solr-config/islandora_transforms/slurp_all_MODS_to_solr.xslt"
     owner: tomcat7
     group: tomcat7
 
