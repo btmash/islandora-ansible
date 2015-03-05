@@ -4,6 +4,7 @@
 
 The purpose of the project is to have a way to install Islandora via Ansible.
 I have provided a Vagrantfile so you can also install locally via Virtualbox and Vagrant.
+Currently, everything *but* the actual islandora (drupal) part of the setup is working (ie. MySQL, Fedora Commons, Freelib-Djatoka, Solr, etc. are all working). I need to create a drush make file to download the dependencies and then this will be ready to go. If someone wants to help on this, help is welcomed!
 
 ## Why not chef?
 
